@@ -53,16 +53,20 @@ export const Workflow = () => {
     return (
         <>
 
-            <Container>
-            <Row>
-                <Col xs={6}>Create Workflow</Col>
-                <Col xs={6}><Button variant="primary">Start</Button>{' '}</Col>
+            <Container fluid>
+            <Row style={{margin: '20px'}}>
+                <Col xs={6} style={{textAlign: 'left'}}><h4>Create Workflow</h4></Col>
+                <Col xs={6}>
+                    <Button variant="primary">Start Workflow</Button>{' '}
+                    <span>Status: Not Started</span>
+                </Col>
+
             </Row>
             <Row>
                 <Col>
                     
                     <WorkflowDiagram onNodeClick={handleNodeClick} />
-                    <Sheet isOpen={openConfigurationSheet} handleClose={handleSheetClose}>
+                    <Sheet isOpen={openConfigurationSheet} handleClose={handleSheetClose} title="Step Configuration">
                         <DialogContent>
                             {getNodeConfiguration()}
                         </DialogContent>

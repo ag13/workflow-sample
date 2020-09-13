@@ -8,7 +8,8 @@ const drawerWidth = 440;
 const useStyles = makeStyles((theme) => ({
     sheetTitle: {
         padding: 0,
-        maring: '0 0 24px 24px'
+        margin: '0 0 24px 24px',
+        textAlign: 'left'
     },
     drawer: {
         width: drawerWidth,
@@ -22,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export const Sheet = ({isOpen = false, handleClose, children}) => {
+export const Sheet = ({isOpen = false, title, handleClose, children}) => {
 
     const classes = useStyles();
-    console.log('sheet', isOpen)
     return (
         <Drawer
             className={classes.drawer}
@@ -42,6 +42,7 @@ export const Sheet = ({isOpen = false, handleClose, children}) => {
                         <CloseIcon />
                     </IconButton>
                 </Box>
+                {title}
             </DialogTitle>
             {children}
         </Drawer>

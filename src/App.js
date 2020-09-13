@@ -4,6 +4,7 @@ import { Route, HashRouter } from 'react-router-dom'
 import { Home } from './Home'
 import { Workflow } from './workflow'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'react-bootstrap-typeahead/css/Typeahead.css';
 
 function App() {
   return (
