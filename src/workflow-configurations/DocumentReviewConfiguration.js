@@ -14,7 +14,6 @@ export const DocumentReviewConfiguration = () => {
 
     return (
         <>
-            <div>Document Review</div>
             <Form.Group>
                 <Form.Label>Select reviewers to review</Form.Label>
                 <Typeahead
