@@ -1,12 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import {
   DiagramComponent
 } from "@syncfusion/ej2-react-diagrams"
 
 
 export const WorkflowDiagram = ({onNodeClick}) => {
-
-    const [clickedNodeId, setClickedNodeId] = useState('')
 
   let diagramInstance
 
@@ -49,13 +47,6 @@ export const WorkflowDiagram = ({onNodeClick}) => {
       ]
   }
 
-  useEffect(() => {
-      if(clickedNodeId){
-        onNodeClick && onNodeClick(clickedNodeId)
-      }
-  }, [clickedNodeId, onNodeClick])
-
-
   const setTemplate = useCallback((props) => {
     if(props.id === 'node1'){
       return (<button onClick={() => alert('test')}>Test</button>)
@@ -79,7 +70,7 @@ export const WorkflowDiagram = ({onNodeClick}) => {
                 if(args){
                     const clickedObj = args.actualObject
                     const clickedObjId = clickedObj.properties.id
-                    setClickedNodeId(clickedObjId)
+                    onNodeClick && onNodeClick(clickedObjId)
                 }
             }}
        />
