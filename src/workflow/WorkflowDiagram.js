@@ -69,8 +69,10 @@ export const WorkflowDiagram = ({onNodeClick}) => {
             click={(args) => {
                 if(args){
                     const clickedObj = args.actualObject
-                    const clickedObjId = clickedObj.properties.id
-                    onNodeClick && onNodeClick(clickedObjId)
+                    if(clickedObj){
+                      const clickedObjId = clickedObj.properties.id
+                      onNodeClick && onNodeClick(clickedObjId)
+                    }
                 }
             }}
        />
