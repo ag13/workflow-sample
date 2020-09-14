@@ -4,7 +4,6 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
-import { config } from 'react-transition-group';
 
 export const DocumentReviewEditConfiguration = () => {
 
