@@ -15,20 +15,20 @@ export const WorkFlowHome = () => {
     {
       id: 1,
       name: 'First User',
-      type: 'In Approval',
+      type: 'sequential',
       status: 'In Progress'
     },
     {
       id: 2,
       name: 'Second User',
-      type: 'In Approval',
+      type: 'parallel',
       status: 'In Progress'
     }
   ]
 
   const handleRowClick = (item) => {
     if(item && item.id){
-      history.push(`/workflows/view/${item.id}`)
+      history.push(`/workflows/view/${item.type}/${item.id}`)
     }
   }
 
