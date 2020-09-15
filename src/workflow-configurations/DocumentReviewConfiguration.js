@@ -4,10 +4,11 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
+import { useFormikContext } from 'formik'
 
 export const DocumentReviewEditConfiguration = () => {
 
-    const [multiSelections, setMultiSelections] = useState([])
+    const { values, setFieldValue } = useFormikContext()
 
     const options = [
         'Pritam',
@@ -15,18 +16,25 @@ export const DocumentReviewEditConfiguration = () => {
         'Anupam'
     ]
 
+    const handleChange = (value) => {
+        if(value){
+            setFieldValue('reviewers', value)
+        }
+    }
+
     return (
         <>
             <Form.Group>
                 <Form.Label>Select reviewers to review</Form.Label>
                 <Typeahead
                 id="basic-typeahead-multiple"
+                name="reviewers"
                 labelKey="name"
                 multiple
-                onChange={setMultiSelections}
+                onChange={handleChange}
                 options={options}
                 placeholder="Choose reviewers..."
-                selected={multiSelections}
+                selected={values.reviewers}
                 />
             </Form.Group>
         </>
