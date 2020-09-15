@@ -6,7 +6,7 @@ import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useFormikContext } from 'formik'
 
-export const DocumentReviewEditConfiguration = () => {
+export const DocumentSingleReviewEditConfiguration = () => {
 
     const { values, setFieldValue } = useFormikContext()
 
@@ -25,15 +25,14 @@ export const DocumentReviewEditConfiguration = () => {
     return (
         <>
             <Form.Group>
-                <Form.Label>Select reviewers to review</Form.Label>
+                <Form.Label>Select reviewer to review</Form.Label>
                 <Typeahead
                 id="basic-typeahead-multiple"
                 name="reviewers"
                 labelKey="name"
-                multiple
                 onChange={handleChange}
                 options={options}
-                placeholder="Choose reviewers..."
+                placeholder="Choose reviewer..."
                 selected={values.reviewers}
                 />
             </Form.Group>
@@ -42,7 +41,7 @@ export const DocumentReviewEditConfiguration = () => {
     )
 }
 
-export const DocumentReviewViewConfiguration = ({workflowId}) => {
+export const DocumentSingleReviewViewConfiguration = ({workflowId}) => {
 
     const [configuration, setConfiguration] = useState({})
 
@@ -54,14 +53,9 @@ export const DocumentReviewViewConfiguration = ({workflowId}) => {
                 {
                     name: 'Apoorva',
                     status: 'In Progress'
-                },
-                {
-                    name: 'Aniva',
-                    status: 'Not started'
                 }
             ]
         }
-        console.log(configuration)
         setConfiguration(configuration)
     }, [workflowId])
 
@@ -69,7 +63,7 @@ export const DocumentReviewViewConfiguration = ({workflowId}) => {
         <>
             <Form.Group as={Row} controlId="formPlaintextEmail">
                 <Form.Label column sm="12">
-                Reviewers
+                Reviewer
                 </Form.Label>
                 <Col sm="10">
                     {

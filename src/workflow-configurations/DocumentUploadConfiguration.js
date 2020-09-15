@@ -3,15 +3,22 @@ import Form from 'react-bootstrap/Form'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { useFormikContext } from 'formik'
 
 export const DocumentUploadEditConfiguration = () => {
 
-    const [singleSelections, setSingleSelections] = useState([])
+    const { values, setFieldValue } = useFormikContext()
 
     const options = [
         'F24H Wizard',
         'MadCap Flare POC'
     ]
+
+    const handleChange = (value) => {
+        if(value){
+            setFieldValue('selectedDocument', value)
+        }
+    }
 
     return (
             <>
@@ -19,11 +26,12 @@ export const DocumentUploadEditConfiguration = () => {
                     <Form.Label>Select document to review</Form.Label>
                     <Typeahead
                     id="basic-typeahead-single"
+                    name="selectedDocument"
                     labelKey="name"
-                    onChange={setSingleSelections}
+                    onChange={handleChange}
                     options={options}
                     placeholder="Choose a document..."
-                    selected={singleSelections}
+                    selected={values.selectedDocument}
                     />
                 </Form.Group>
             </>
