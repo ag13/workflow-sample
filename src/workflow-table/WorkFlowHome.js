@@ -38,8 +38,8 @@ export const WorkFlowHome = () => {
         <Col xs={6} style={{ textAlign: 'left' }}><h3>Your Workflows</h3></Col>
         <Col xs={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <DropdownButton id="dropdown-item-button" title="Create Workflows">
-            <Dropdown.Item as={NavLink} to="/workflows/create">Sequential Review</Dropdown.Item>
-            <Dropdown.Item as={NavLink} to="/workflows/create">Parallel Review</Dropdown.Item>
+            <Dropdown.Item as={NavLink} to="/workflows/create/sequential">Sequential Review</Dropdown.Item>
+            <Dropdown.Item as={NavLink} to="/workflows/create/parallel">Parallel Review</Dropdown.Item>
           </DropdownButton>
         </Col>
       </Row>
