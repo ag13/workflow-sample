@@ -13,8 +13,8 @@ function App() {
       <HashRouter basename="/">
         <Route exact path="/" component={Home} />
         <Route exact path="/workflows/" component={WorkFlowHome} />
-        <Route exact path="/workflows/create" component={WorkflowCreation} />
-        <Route exact path="/workflows/view/:workflowId" component={ViewWorkflow} />
+        <Route exact path="/workflows/create/:type" component={WorkflowCreation} />
+        <Route exact path="/workflows/view/:type/:workflowId" component={ViewWorkflow} />
         <Route exact path="/workflows/approval" component={WorkflowApproval} />
       </HashRouter>
     </div>

@@ -1,25 +1,29 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { WorkflowDiagram } from './WorkflowDiagram'
 import { Sheet } from '../common'
-import { DocumentReviewViewConfiguration, DocumentUploadViewConfiguration } from '../workflow-configurations'
+import { DocumentReviewViewConfiguration, DocumentUploadViewConfiguration, DocumentSingleReviewViewConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { useParams } from 'react-router-dom'
 
 export const ViewWorkflow = () => {
 
-    let { workflowId } = useParams()
+    let { workflowId, type } = useParams()
 
-    const [nodeId, setNodeId] = useState('')
+    const [nodeType, setNodeType] = useState('')
     const [openConfigurationSheet, setOpenConfigurationSheet] = useState(false)
 
-    const handleNodeClick = (clickedNodeId) => {
-        if(clickedNodeId){
-            setNodeId(clickedNodeId)
+    useEffect(() => {
+        //get workflow information from workflowId
+    }, [workflowId])
+
+    const handleNodeClick = (clickedNodeType) => {
+        if(clickedNodeType){
+            setNodeType(clickedNodeType)
             setOpenConfigurationSheet(true)
         }
     }
@@ -29,18 +33,20 @@ export const ViewWorkflow = () => {
     }
 
     const getNodeConfiguration = useCallback(() => {
-        if(nodeId){
-            switch(nodeId){
-                case 'node1': 
+        if(nodeType){
+            switch(nodeType){
+                case 'documentUpload': 
                     return <DocumentUploadViewConfiguration workflowId={workflowId} />
-                case 'node2':
+                case 'multiReview':
                     return <DocumentReviewViewConfiguration workflowId={workflowId} />
+                case 'singleReview':
+                    return <DocumentSingleReviewViewConfiguration workflowId={workflowId} />
                 default:
                     return null
                 
             }
         }
-    }, [nodeId, workflowId])
+    }, [nodeType, workflowId])
 
     return (
         <>
@@ -55,7 +61,7 @@ export const ViewWorkflow = () => {
                 <Row>
                     <Col>
                         
-                        <WorkflowDiagram onNodeClick={handleNodeClick} />
+                        <WorkflowDiagram type={type} onNodeClick={handleNodeClick} />
                         <Sheet isOpen={openConfigurationSheet} handleClose={handleSheetClose} title="Step Configuration">
                             <DialogContent>
                                 {getNodeConfiguration()}
