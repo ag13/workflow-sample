@@ -23,6 +23,9 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
             annotations: [
               {
                 content: "Step 1 - Document Selection"
+              },
+              {
+                stepType: "documentUpload"
               }
             ]
           //   shape: {
@@ -38,6 +41,9 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
             annotations: [
               {
                 content: "Step 2 - Document Review"
+              },
+              {
+                stepType: "singleReview"
               }
             ]
           },
@@ -50,6 +56,9 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
             annotations: [
               {
                 content: "Step 3 - Document Review"
+              },
+              {
+                stepType: "singleReview"
               }
             ]
           },
@@ -62,6 +71,9 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
             annotations: [
               {
                 content: "Step 4 - Document Review"
+              },
+              {
+                stepType: "singleReview"
               }
             ]
           }
@@ -97,6 +109,9 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
             annotations: [
               {
                 content: "Step 1 - Document Selection"
+              },
+              {
+                stepType: "documentUpload"
               }
             ]
           //   shape: {
@@ -112,6 +127,9 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
             annotations: [
               {
                 content: "Step 2 - Document Review"
+              },
+              {
+                stepType: "multiReview"
               }
             ]
           }
@@ -153,8 +171,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 if(args){
                     const clickedObj = args.actualObject
                     if(clickedObj){
-                      const clickedObjId = clickedObj.properties.id
-                      onNodeClick && onNodeClick(clickedObjId)
+                      const clickedObjType = clickedObj.properties.annotations[1].stepType
+                      onNodeClick && onNodeClick(clickedObjType)
                     }
                 }
             }}

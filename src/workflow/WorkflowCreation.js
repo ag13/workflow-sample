@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { WorkflowDiagram } from './WorkflowDiagram'
 import { Sheet, Toastr } from '../common'
-import { DocumentReviewEditConfiguration, DocumentUploadEditConfiguration } from '../workflow-configurations'
+import { DocumentReviewEditConfiguration, DocumentUploadEditConfiguration, DocumentSingleReviewEditConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { Formik } from 'formik'
@@ -14,15 +14,15 @@ import { useParams } from 'react-router-dom'
 
 export const WorkflowCreation = () => {
 
-    const [nodeId, setNodeId] = useState('')
+    const [nodeType, setNodeType] = useState('')
     const [openConfigurationSheet, setOpenConfigurationSheet] = useState(false)
     const [showSuccessToast, setShowSuccessToast] = useState(false)
     const [showWorkflowStartToast, setShowWorkflowStartToast] = useState(false)
     const { type } = useParams()
     
-    const handleNodeClick = (clickedNodeId) => {
-        if(clickedNodeId){
-            setNodeId(clickedNodeId)
+    const handleNodeClick = (clickedNodeType) => {
+        if(clickedNodeType){
+            setNodeType(clickedNodeType)
             setOpenConfigurationSheet(true)
         }
     }
@@ -32,18 +32,20 @@ export const WorkflowCreation = () => {
     }
 
     const getNodeConfiguration = useCallback(() => {
-        if(nodeId){
-            switch(nodeId){
-                case 'node1': 
+        if(nodeType){
+            switch(nodeType){
+                case 'documentUpload': 
                     return <DocumentUploadEditConfiguration />
-                case 'node2':
+                case 'multiReview':
                     return <DocumentReviewEditConfiguration />
+                case 'singleReview':
+                    return <DocumentSingleReviewEditConfiguration />
                 default:
                     return null
                 
             }
         }
-    }, [nodeId])
+    }, [nodeType])
 
     const handleWorkflowSave = async (values) => {
         console.log('values', values)
