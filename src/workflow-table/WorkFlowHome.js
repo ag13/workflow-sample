@@ -6,8 +6,11 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
+import { useHistory } from 'react-router-dom'
 
 export const WorkFlowHome = () => {
+  const history = useHistory()
+
   const userData = [
     {
       id: 1,
@@ -23,6 +26,12 @@ export const WorkFlowHome = () => {
     }
   ]
 
+  const handleRowClick = (item) => {
+    if(item && item.id){
+      history.push(`/workflows/view/${item.id}`)
+    }
+  }
+
   return (
     <Container fluid>
       <Row style={{ margin: '20px' }}>
@@ -30,7 +39,7 @@ export const WorkFlowHome = () => {
         <Col xs={6} style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <DropdownButton id="dropdown-item-button" title="Create Workflows">
             <Dropdown.Item as={NavLink} to="/workflows/create">Sequential Review</Dropdown.Item>
-            <Dropdown.Item as="button">Parallel Review</Dropdown.Item>
+            <Dropdown.Item as={NavLink} to="/workflows/create">Parallel Review</Dropdown.Item>
           </DropdownButton>
         </Col>
       </Row>
@@ -48,7 +57,7 @@ export const WorkFlowHome = () => {
           <tbody>
             {userData.map(item => {
               return (
-                <tr>
+                <tr onClick={() => handleRowClick(item)}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.type}</td>
