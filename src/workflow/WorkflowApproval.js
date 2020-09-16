@@ -28,7 +28,7 @@ export const WorkflowApproval = () => {
   }
 
   const setWorkflowStatus = (value) => {
-    fetch("http://localhost:8888/acknowledgement/", {
+    fetch("http://ec2-3-131-133-128.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
 
       method: "POST",
       body: JSON.stringify({
@@ -40,8 +40,10 @@ export const WorkflowApproval = () => {
         "Content-type": "application/json; charset=UTF-8"
       }
     })
-      .then(response => response.json())
-      .then(response => console.log('Response after Approval', response))
+      .then(response => {
+        console.log('Response after Approval', response)
+        // setSnackbarMessage(response)
+      }) // response is already a JSON Object no need to convert
       .catch(error => console.error('Received Error while posting via acknowledge service: ', error))
   }
   const closeSnackbar = () => {
