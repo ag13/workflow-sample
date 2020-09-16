@@ -1,11 +1,8 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
-import { useHistory } from 'react-router-dom'
 
 export const WorkflowApproval = () => {
   const rowStyle =

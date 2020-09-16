@@ -29,7 +29,7 @@ export const WorkFlowHome = () => {
   // ]
 
   const handleRowClick = (item) => {
-    if(item && item.workflowId){
+    if (item && item.workflowId) {
       const workflowTypeLowerCase = item.workflowType.toLowerCase()
       history.push(`/workflows/view/${workflowTypeLowerCase}/${item.workflowId}`)
     }
@@ -59,7 +59,7 @@ export const WorkFlowHome = () => {
           <tbody>
             {workflows.map(item => {
               return (
-                <tr key={item.workflowId} onClick={() => handleRowClick(item)}>
+                <tr key={item.workflowId} style={{ cursor: 'pointer' }} onClick={() => handleRowClick(item)}>
                   <td>{item.workflowId}</td>
                   <td>{item.name}</td>
                   <td>{item.workflowType}</td>
