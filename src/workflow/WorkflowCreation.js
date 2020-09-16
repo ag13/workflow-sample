@@ -76,8 +76,8 @@ export const WorkflowCreation = () => {
         // const { workflowId, workflowType, name } = response.json()
         const createdWorkflow = {
             "workflowId": "7aa6682f-910e-49ac-8698-9eab44295b80",
-            "workflowType": "SEQUENTIAL",
-            "name": "Test Flow"
+            "workflowType": type,
+            "name": values.workflowName
         }
 
         if(createdWorkflow.workflowId) {
