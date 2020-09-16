@@ -39,7 +39,7 @@ export const DocumentUploadEditConfiguration = () => {
     )
 }
 
-export const DocumentUploadViewConfiguration = ({workflowId}) => {
+export const DocumentUploadViewConfiguration = ({fetchedWorkflow}) => {
 
     const [configuration, setConfiguration] = useState({})
 
@@ -50,7 +50,7 @@ export const DocumentUploadViewConfiguration = ({workflowId}) => {
             document: 'F2H Wizard'
         }
         setConfiguration(configuration)
-    }, [workflowId])
+    }, [fetchedWorkflow])
 
     return (
             <>
