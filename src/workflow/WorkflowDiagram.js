@@ -11,7 +11,7 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
   const [workflowType, setWorkflowType] = useState({})
 
   useEffect(() => {
-    if(type && type === 'sequential'){
+    if(type && type.toLowerCase() === 'sequential'){
       const sequential = {
         nodes: [
           {
@@ -101,7 +101,7 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
         ]
       }
       setWorkflowType(sequential)
-    }else if(type === 'parallel'){
+    }else if(type.toLowerCase() === 'parallel'){
       const parallel = {
         nodes: [
           {

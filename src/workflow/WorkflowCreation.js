@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { WorkflowDiagram } from './WorkflowDiagram'
-import { Sheet, Toastr } from '../common'
+import { Sheet, Toastr, useLocalStorage } from '../common'
 import { DocumentReviewEditConfiguration, DocumentUploadEditConfiguration, DocumentSingleReviewEditConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
@@ -22,6 +22,7 @@ export const WorkflowCreation = () => {
     const [showWorkflowStartToast, setShowWorkflowStartToast] = useState(false)
     const { type } = useParams()
     const history = useHistory()
+    const [workflows, setWorkflows] = useLocalStorage('ws:workflows', [])
     
     const handleNodeClick = (clickedNodeAnnotation) => {
         if(clickedNodeAnnotation){
@@ -71,13 +72,20 @@ export const WorkflowCreation = () => {
         //     //show error toast
         // }
 
-        // setShowWorkflowStartToast(true)
+        setShowWorkflowStartToast(true)
         // const { workflowId, workflowType, name } = response.json()
+        const createdWorkflow = {
+            "workflowId": "7aa6682f-910e-49ac-8698-9eab44295b80",
+            "workflowType": "SEQUENTIAL",
+            "name": "Test Flow"
+        }
 
-        // if(workflowId) {
-        //     //store in localstorage and redirect to workspace listing
-        //     history.push('/workflows/')
-        // }
+        if(createdWorkflow.workflowId) {
+            //store in localstorage and redirect to workspace listing
+            const allWorkflows = [...workflows, createdWorkflow]
+            setWorkflows(allWorkflows)
+            history.push('/workflows/')
+        }
     }
 
     return (            
