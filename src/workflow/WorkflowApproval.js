@@ -24,7 +24,7 @@ export const WorkflowApproval = () => {
   const handleRejection = () => {
     setSnackBar(true);
     setSnackbarMessage('Workflow has been Rejected')
-    setWorkflowStatus('approve')
+    setWorkflowStatus('reject')
   }
 
   const setWorkflowStatus = (value) => {
@@ -32,17 +32,17 @@ export const WorkflowApproval = () => {
 
       method: "POST",
       body: JSON.stringify({
-        workflowId : "7aa6682f-910e-49ac-8698-9eab44295b80",
-        level : "three",
+        workflowId: "7aa6682f-910e-49ac-8698-9eab44295b80",
+        level: "three",
         value
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
       }
     })
-    .then(response => response.json())
-    .then(response => console.log('Response after Approval',response))
-    .catch(error=> console.error('Received Error while posting via acknowledge service: ',error))
+      .then(response => response.json())
+      .then(response => console.log('Response after Approval', response))
+      .catch(error => console.error('Received Error while posting via acknowledge service: ', error))
   }
   const closeSnackbar = () => {
     setSnackBar(false);
