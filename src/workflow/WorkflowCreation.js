@@ -11,18 +11,22 @@ import { DialogActions, DialogContent } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { Formik } from 'formik'
 import { useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 export const WorkflowCreation = () => {
 
     const [nodeType, setNodeType] = useState('')
+    const [stepNumber, setStepNumber] = useState('')
     const [openConfigurationSheet, setOpenConfigurationSheet] = useState(false)
     const [showSuccessToast, setShowSuccessToast] = useState(false)
     const [showWorkflowStartToast, setShowWorkflowStartToast] = useState(false)
     const { type } = useParams()
+    const history = useHistory()
     
-    const handleNodeClick = (clickedNodeType) => {
-        if(clickedNodeType){
-            setNodeType(clickedNodeType)
+    const handleNodeClick = (clickedNodeAnnotation) => {
+        if(clickedNodeAnnotation){
+            setNodeType(clickedNodeAnnotation.stepType)
+            setStepNumber(clickedNodeAnnotation.stepNumber)
             setOpenConfigurationSheet(true)
         }
     }
@@ -39,20 +43,25 @@ export const WorkflowCreation = () => {
                 case 'multiReview':
                     return <DocumentReviewEditConfiguration />
                 case 'singleReview':
-                    return <DocumentSingleReviewEditConfiguration />
+                    return <DocumentSingleReviewEditConfiguration nodeType={nodeType} stepNumber={stepNumber} />
                 default:
                     return null
                 
             }
         }
-    }, [nodeType])
+    }, [nodeType, stepNumber])
 
     const handleWorkflowSave = async (values) => {
         console.log('values', values)
 
         //TODO - API call to initiate workflow
         // const response = await fetch('http://localhost:8888/workflow/initiate', {
-        //     method: 'POST'
+        //     method: 'POST',
+        //     body: JSON.stringify({
+        //         "workflowType": type,
+        //         "name": values.workflowName
+        //         //also need to send step config values
+        //     })
         // })
 
         // if(response.ok){
@@ -60,6 +69,14 @@ export const WorkflowCreation = () => {
         //     //redirect to workflow listing
         // }else{
         //     //show error toast
+        // }
+
+        // setShowWorkflowStartToast(true)
+        // const { workflowId, workflowType, name } = response.json()
+
+        // if(workflowId) {
+        //     //store in localstorage and redirect to workspace listing
+        //     history.push('/workflows/')
         // }
     }
 
