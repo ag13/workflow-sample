@@ -6,19 +6,50 @@ import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useFormikContext } from 'formik'
 
-export const DocumentSingleReviewEditConfiguration = () => {
+export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) => {
 
     const { values, setFieldValue } = useFormikContext()
+    const [options, setOptions] = useState([])
 
-    const options = [
-        'Pritam',
-        'Ashish',
-        'Anupam'
-    ]
+    useEffect(() => {
+        // This is just hardcoding for the PoC
+        if(nodeType === 'multiReview'){
+            setOptions(
+                [
+                    'Pritam',
+                    'Ashish',
+                    'Anupam'
+                ]
+            )
+        }else if(nodeType === 'singleReview'){
+            if(stepNumber === 'one'){
+                setOptions([
+                    'John Doe',
+                    'Jane Doe'
+                ])
+            } else if(stepNumber === 'two'){
+                setOptions([
+                    'Akhil',
+                    'Ashwini'
+                ])
+            } else if(stepNumber === 'three'){
+                setOptions([
+                    'Auro',
+                    'Chitra'
+                ])
+            } else if(stepNumber === 'four'){
+                setOptions([
+                    'Shubho',
+                    'Biplap'
+                ])
+            }
+        }
+    }, [nodeType, stepNumber])
+
 
     const handleChange = (value) => {
         if(value){
-            setFieldValue('reviewers', value)
+            setFieldValue(`reviewers-${stepNumber}`, value)
         }
     }
 
@@ -28,12 +59,12 @@ export const DocumentSingleReviewEditConfiguration = () => {
                 <Form.Label>Select reviewer to review</Form.Label>
                 <Typeahead
                 id="basic-typeahead-multiple"
-                name="reviewers"
+                name={`reviewers-${stepNumber}`}
                 labelKey="name"
                 onChange={handleChange}
                 options={options}
                 placeholder="Choose reviewer..."
-                selected={values.reviewers}
+                selected={values[`reviewers-${stepNumber}`] || []}
                 />
             </Form.Group>
         </>

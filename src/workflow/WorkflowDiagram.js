@@ -25,7 +25,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 content: "Step 1 - Document Selection"
               },
               {
-                stepType: "documentUpload"
+                stepType: "documentUpload",
+                stepNumber: "one"
               }
             ]
           //   shape: {
@@ -43,7 +44,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 content: "Step 2 - Document Review"
               },
               {
-                stepType: "singleReview"
+                stepType: "singleReview",
+                stepNumber: "two"
               }
             ]
           },
@@ -58,7 +60,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 content: "Step 3 - Document Review"
               },
               {
-                stepType: "singleReview"
+                stepType: "singleReview",
+                stepNumber: "three"
               }
             ]
           },
@@ -73,7 +76,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 content: "Step 4 - Document Review"
               },
               {
-                stepType: "singleReview"
+                stepType: "singleReview",
+                stepNumber: "four"
               }
             ]
           }
@@ -111,7 +115,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 content: "Step 1 - Document Selection"
               },
               {
-                stepType: "documentUpload"
+                stepType: "documentUpload",
+                stepNumber: "one"
               }
             ]
           //   shape: {
@@ -129,7 +134,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 content: "Step 2 - Document Review"
               },
               {
-                stepType: "multiReview"
+                stepType: "multiReview",
+                stepNumber: "two"
               }
             ]
           }
@@ -171,8 +177,8 @@ export const WorkflowDiagram = ({type, onNodeClick}) => {
                 if(args){
                     const clickedObj = args.actualObject
                     if(clickedObj){
-                      const clickedObjType = clickedObj.properties.annotations[1].stepType
-                      onNodeClick && onNodeClick(clickedObjType)
+                      const clickedObjAnnotation = clickedObj.properties.annotations[1]
+                      onNodeClick && onNodeClick(clickedObjAnnotation)
                     }
                 }
             }}
