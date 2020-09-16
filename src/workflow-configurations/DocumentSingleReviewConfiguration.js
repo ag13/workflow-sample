@@ -72,7 +72,7 @@ export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) =>
     )
 }
 
-export const DocumentSingleReviewViewConfiguration = ({workflowId}) => {
+export const DocumentSingleReviewViewConfiguration = ({fetchedWorkflow}) => {
 
     const [configuration, setConfiguration] = useState({})
 
@@ -88,7 +88,7 @@ export const DocumentSingleReviewViewConfiguration = ({workflowId}) => {
             ]
         }
         setConfiguration(configuration)
-    }, [workflowId])
+    }, [fetchedWorkflow])
 
     return (
         <>

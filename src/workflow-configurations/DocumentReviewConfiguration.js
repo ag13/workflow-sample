@@ -42,7 +42,7 @@ export const DocumentReviewEditConfiguration = () => {
     )
 }
 
-export const DocumentReviewViewConfiguration = ({workflowId}) => {
+export const DocumentReviewViewConfiguration = ({fetchedWorkflow}) => {
 
     const [configuration, setConfiguration] = useState({})
 
@@ -63,7 +63,7 @@ export const DocumentReviewViewConfiguration = ({workflowId}) => {
         }
         console.log(configuration)
         setConfiguration(configuration)
-    }, [workflowId])
+    }, [fetchedWorkflow])
 
     return (
         <>
