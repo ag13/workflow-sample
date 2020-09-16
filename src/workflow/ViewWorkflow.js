@@ -15,15 +15,17 @@ export const ViewWorkflow = () => {
     let { workflowId, type } = useParams()
 
     const [nodeType, setNodeType] = useState('')
+    const [stepNumber, setStepNumber] = useState('')
     const [openConfigurationSheet, setOpenConfigurationSheet] = useState(false)
 
     useEffect(() => {
         //get workflow information from workflowId
     }, [workflowId])
 
-    const handleNodeClick = (clickedNodeType) => {
-        if(clickedNodeType){
-            setNodeType(clickedNodeType)
+    const handleNodeClick = (clickedNodeAnnotation) => {
+        if(clickedNodeAnnotation){
+            setNodeType(clickedNodeAnnotation.stepType)
+            setStepNumber(clickedNodeAnnotation.stepNumber)
             setOpenConfigurationSheet(true)
         }
     }
