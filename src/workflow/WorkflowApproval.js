@@ -1,11 +1,9 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Table from 'react-bootstrap/Table'
-import { useHistory } from 'react-router-dom'
+import Snackbar from '@material-ui/core/Snackbar';
 
 export const WorkflowApproval = () => {
   const rowStyle =
@@ -14,12 +12,42 @@ export const WorkflowApproval = () => {
     justifyContent: 'center'
   }
 
+  const [snackbar, setSnackBar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+
   const handleApproval = () => {
-    alert('Workflow has been Approved');
+    setSnackBar(true);
+    setSnackbarMessage('Workflow has been Approved')
+    setWorkflowStatus('approve')
   }
 
   const handleRejection = () => {
-    alert('Workflow has been Rejected');
+    setSnackBar(true);
+    setSnackbarMessage('Workflow has been Rejected')
+    setWorkflowStatus('reject')
+  }
+
+  const setWorkflowStatus = (value) => {
+    fetch("http://ec2-3-131-133-128.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
+
+      method: "POST",
+      body: JSON.stringify({
+        workflowId: "7aa6682f-910e-49ac-8698-9eab44295b80",
+        level: "three",
+        value
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(response => {
+        console.log('Response after Approval', response)
+        // setSnackbarMessage(response)
+      }) // response is already a JSON Object no need to convert
+      .catch(error => console.error('Received Error while posting via acknowledge service: ', error))
+  }
+  const closeSnackbar = () => {
+    setSnackBar(false);
   }
 
   return (
@@ -38,8 +66,18 @@ export const WorkflowApproval = () => {
           <Button variant='danger' onClick={handleRejection}> Reject </Button>
         </Col>
       </Row>
-
-
+      {
+        snackbar &&
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={snackbar}
+          onClose={closeSnackbar}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{snackbarMessage}</span>}
+        />
+      }
     </Container>
   )
 }

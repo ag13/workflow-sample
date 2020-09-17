@@ -283,7 +283,7 @@ export const ViewWorkflow = () => {
                 <Row>
                     <Col>
                         
-                        <WorkflowDiagram type={type} onNodeClick={handleNodeClick} />
+                        <WorkflowDiagram type={type} workflowId={workflowId} onNodeClick={handleNodeClick} />
                         <Sheet isOpen={openConfigurationSheet} handleClose={handleSheetClose} title="Step Configuration">
                             <DialogContent>
                                 {getNodeConfiguration()}
