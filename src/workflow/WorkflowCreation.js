@@ -77,7 +77,10 @@ export const WorkflowCreation = () => {
         const createdWorkflow = {
             "workflowId": "7aa6682f-910e-49ac-8698-9eab44295b80",
             "workflowType": type,
-            "name": values.workflowName
+            "name": values.workflowName,
+            "stepConfiguration": {
+                ...values
+            }
         }
 
         if(createdWorkflow.workflowId) {

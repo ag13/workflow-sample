@@ -14,6 +14,34 @@ export const WorkflowDiagram = ({ type, workflowId, onNodeClick }) => {
   const green = '#61FF33' // color code for completed
   const grey = '#E5ECE2'  // color code for In progress
   const red = '#FA2116'   // color code for rejected
+  const white = 'white'
+  // Hardcoded data to show progress for now
+  const workflowHistory = {
+    "workflowId": "7aa6682f-910e-49ac-8698-9eab44295b80",
+    "state": "approved",
+    "history": [
+        {
+            "eventId": "one",
+            "eventType": null,
+            "state": "approved"
+        },
+        {
+            "eventId": "two",
+            "eventType": null,
+            "state": "rejected"
+        },
+        {
+            "eventId": "three",
+            "eventType": null,
+            "state": null
+        },
+        {
+            "eventId": "four",
+            "eventType": null,
+            "state": null
+        }
+    ]
+}
 
   useEffect(() => {
     if (type && type.toLowerCase() === 'sequential') {
@@ -26,7 +54,7 @@ export const WorkflowDiagram = ({ type, workflowId, onNodeClick }) => {
             offsetX: 200,
             offsetY: 100,
             style: {
-              fill: green,
+              fill: grey,
             },
             annotations: [
               {
@@ -128,7 +156,7 @@ export const WorkflowDiagram = ({ type, workflowId, onNodeClick }) => {
             offsetX: 200,
             offsetY: 100,
             style: {
-              fill: green,
+              fill: grey,
             },
             annotations: [
               {
@@ -180,7 +208,38 @@ export const WorkflowDiagram = ({ type, workflowId, onNodeClick }) => {
     // in this useeffect. Though we might also take another way.
 
     const selectedWorkflow = workflows.filter(item => item.id !== workflowId)
-    console.log(selectedWorkflow.workflowId)
+    console.log(selectedWorkflow)
+
+    if (selectedWorkflow.length && type.toLowerCase() === 'sequential'){
+      const nodeHistory = workflowHistory.history;
+      for(let i=0; i<nodeHistory.length;i++){
+        switch(nodeHistory[i].state){
+          case 'approved':
+            setWorkflowType(prevState=>{
+              prevState.nodes[i].style.fill = green
+              return {...prevState}
+            })
+            break
+          case 'rejected':
+            setWorkflowType(prevState=>{
+              prevState.nodes[i].style.fill = red
+              return {...prevState}
+            })
+            break
+          case null:
+            setWorkflowType(prevState=>{
+              prevState.nodes[i].style.fill = white
+              return {...prevState}
+            })
+            break
+          default:
+            return {...workflowType}
+        }
+      }
+    }  else if (type.toLowerCase() === 'parallel'){
+      // code for parallel view workflow status change
+      // Will implement it as soon as we get history object structure for Parallel flow
+    }
   }, [workflowId])
 
   const setTemplate = useCallback((props) => {
