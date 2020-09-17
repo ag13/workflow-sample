@@ -56,28 +56,28 @@ export const WorkflowCreation = () => {
         console.log('values', values)
 
         //TODO - API call to initiate workflow
-        // const response = await fetch('http://localhost:8888/workflow/initiate', {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         "workflowType": type,
-        //         "name": values.workflowName
-        //         //also need to send step config values
-        //     })
-        // })
+        const response = await fetch('http://ec2-3-129-9-103.us-east-2.compute.amazonaws.com:8888/workflow/initiate', {
+            method: 'POST',
+            body: JSON.stringify({
+                "workflowType": type,
+                "name": values.workflowName
+                //also need to send step config values
+            })
+        })
 
-        // if(response.ok){
-        //     setShowWorkflowStartToast(true)
-        //     //redirect to workflow listing
-        // }else{
-        //     //show error toast
-        // }
+        if(response.ok){
+            setShowWorkflowStartToast(true)
+            //redirect to workflow listing
+        }else{
+            //show error toast
+        }
 
         setShowWorkflowStartToast(true)
-        // const { workflowId, workflowType, name } = response.json()
+        const { workflowId, workflowType, name } = response.json()
         const createdWorkflow = {
-            "workflowId": "7aa6682f-910e-49ac-8698-9eab44295b80",
-            "workflowType": type,
-            "name": values.workflowName,
+            "workflowId": workflowId,
+            "workflowType": workflowType,
+            "name": name,
             "stepConfiguration": {
                 ...values
             }
