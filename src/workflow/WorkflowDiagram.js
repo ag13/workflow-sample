@@ -10,11 +10,30 @@ export const WorkflowDiagram = ({ type, workflowId, onNodeClick }) => {
   let diagramInstance
 
   const [workflowType, setWorkflowType] = useState({})
+  // const [workflowHistory, setWorkflowHistory] = useState({})
   const [workflows] = useLocalStorage('ws:workflows', [])
   const green = '#61FF33' // color code for completed
   const grey = '#E5ECE2'  // color code for In progress
   const red = '#FA2116'   // color code for rejected
   const white = 'white'
+
+//   useEffect(() => {
+//     //get workflow information from workflowId
+//     const fetchWorkflow = async () => {
+//         const response = await fetch(`http://ec2-3-131-133-128.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
+//             method: 'GET'
+//         })
+//         if(response.ok){
+//             const workflow = response.json()
+//             setWorkflowHistory(workflow)
+//         }else{
+//             console.error('Not able to get workflow details')
+//         }
+//     }
+
+//     fetchWorkflow()
+// }, [workflowId])
+
   // Hardcoded data to show progress for now
   const workflowHistory = {
     "workflowId": "7aa6682f-910e-49ac-8698-9eab44295b80",
@@ -216,31 +235,34 @@ export const WorkflowDiagram = ({ type, workflowId, onNodeClick }) => {
         switch(nodeHistory[i].state){
           case 'approved':
             setWorkflowType(prevState=>{
-              prevState.nodes[i].style.fill = green
-              return {...prevState}
+              const updatedState = {...prevState}
+              updatedState.nodes[i].style.fill = green
+              return updatedState
             })
             break
           case 'rejected':
             setWorkflowType(prevState=>{
-              prevState.nodes[i].style.fill = red
-              return {...prevState}
+              const updatedState = {...prevState}
+              updatedState.nodes[i].style.fill = red
+              return updatedState
             })
             break
           case null:
             setWorkflowType(prevState=>{
-              prevState.nodes[i].style.fill = white
-              return {...prevState}
+              const updatedState = {...prevState}
+              updatedState.nodes[i].style.fill = white
+              return updatedState
             })
             break
           default:
-            return {...workflowType}
+            return null
         }
       }
     }  else if (type.toLowerCase() === 'parallel'){
       // code for parallel view workflow status change
       // Will implement it as soon as we get history object structure for Parallel flow
     }
-  }, [workflowId])
+  }, [workflowId, type])
 
   const setTemplate = useCallback((props) => {
     if (props.id === 'node1') {

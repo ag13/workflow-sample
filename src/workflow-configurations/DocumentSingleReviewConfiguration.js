@@ -5,7 +5,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useFormikContext } from 'formik'
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+// import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
+import { useLocalStorage } from '../common';
 
 export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) => {
 
@@ -73,23 +74,23 @@ export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) =>
     )
 }
 
-export const DocumentSingleReviewViewConfiguration = ({fetchedWorkflow}) => {
+export const DocumentSingleReviewViewConfiguration = ({workflowId, stepNumber}) => {
 
     const [configuration, setConfiguration] = useState({})
+    const [workflows] = useLocalStorage('ws:workflows', [])
 
     useEffect(() => {
         //get configuration using workflowId
-        const configuration = {
-            step: 2,
-            reviewers: [
-                {
-                    name: 'Apoorva',
-                    status: 'Rejected'
-                }
-            ]
+        const result = workflows.filter(item => item.workflowId === workflowId)
+        if(result){
+            const workflow = result[0]
+            const configuration = {
+                reviewer: workflow.stepConfiguration[`reviewers-${stepNumber}`]
+            }
+            console.log(configuration, stepNumber)
+            setConfiguration(configuration)
         }
-        setConfiguration(configuration)
-    }, [fetchedWorkflow])
+    }, [workflowId, stepNumber, workflows])
 
     return (
         <>
@@ -99,12 +100,9 @@ export const DocumentSingleReviewViewConfiguration = ({fetchedWorkflow}) => {
                 </Form.Label>
                 <Col sm="10">
                     {
-                        configuration && configuration.reviewers &&
+                        configuration && configuration.reviewer &&
                         <ListGroup>
-                            {
-                                configuration.reviewers.map(reviewer => 
-                                    <ListGroup.Item>{reviewer.name} - {reviewer.status} <FiberManualRecordIcon style={{color: 'red', marginLeft: '100px'}} /></ListGroup.Item>)
-                            }
+                            <ListGroup.Item>{configuration.reviewer[0]}</ListGroup.Item>
                         </ListGroup>
                     }
                 </Col>
