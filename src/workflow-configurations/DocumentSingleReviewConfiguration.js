@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { useFormikContext } from 'formik'
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 
 export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) => {
 
@@ -83,7 +84,7 @@ export const DocumentSingleReviewViewConfiguration = ({fetchedWorkflow}) => {
             reviewers: [
                 {
                     name: 'Apoorva',
-                    status: 'In Progress'
+                    status: 'Rejected'
                 }
             ]
         }
@@ -102,7 +103,7 @@ export const DocumentSingleReviewViewConfiguration = ({fetchedWorkflow}) => {
                         <ListGroup>
                             {
                                 configuration.reviewers.map(reviewer => 
-                                    <ListGroup.Item>{reviewer.name} - {reviewer.status}</ListGroup.Item>)
+                                    <ListGroup.Item>{reviewer.name} - {reviewer.status} <FiberManualRecordIcon style={{color: 'red', marginLeft: '100px'}} /></ListGroup.Item>)
                             }
                         </ListGroup>
                     }
