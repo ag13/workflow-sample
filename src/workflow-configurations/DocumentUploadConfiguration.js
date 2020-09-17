@@ -4,6 +4,7 @@ import { Typeahead } from 'react-bootstrap-typeahead'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useFormikContext } from 'formik'
+import { useLocalStorage } from '../common';
 
 export const DocumentUploadEditConfiguration = () => {
 
@@ -39,18 +40,22 @@ export const DocumentUploadEditConfiguration = () => {
     )
 }
 
-export const DocumentUploadViewConfiguration = ({fetchedWorkflow}) => {
+export const DocumentUploadViewConfiguration = ({workflowId}) => {
 
     const [configuration, setConfiguration] = useState({})
+    const [workflows] = useLocalStorage('ws:workflows', [])
 
     useEffect(() => {
         //get configuration using workflowId
-        const configuration = {
-            step: 1,
-            document: 'F2H Wizard'
+        const result = workflows.filter(item => item.workflowId === workflowId)
+        if(result){
+            const workflow = result[0]
+            const configuration = {
+                document: workflow.stepConfiguration.selectedDocument[0]
+            }
+            setConfiguration(configuration)
         }
-        setConfiguration(configuration)
-    }, [fetchedWorkflow])
+    }, [workflowId, workflows])
 
     return (
             <>
