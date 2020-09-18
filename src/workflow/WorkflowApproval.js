@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Snackbar from '@material-ui/core/Snackbar';
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import Table from 'react-bootstrap/Table'
 import { useLocalStorage } from '../common'
 
@@ -19,33 +19,10 @@ export const WorkflowApproval = () => {
   const [snackbar, setSnackBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('')
   const [workflows] = useLocalStorage('ws:workflows', [])
-  // const [showhistory, setShowHistory] = useState([])
-  const [showApprovalTab,setShowApprovalTab] = useState(false) // this needs to be deleted before merge
+  const [showApprovalTab, setShowApprovalTab] = useState(false)
   const [workflowId, setWorkflowId] = useState('')
 
-  const historyData = {
-    "workflowId": workflowId,
-    "history": [
-        {
-            "eventId": "1",
-            "eventType": null,
-            level:'one',
-            "state": null
-        },
-        {
-            "eventId": "2",
-            "eventType": null,
-            level:'two',
-            "state": null
-        },
-        {
-            "eventId": "3",
-            "eventType": null,
-            level:'three',
-            "state": null
-        }
-      ]
-    }
+  const workflowLevels = ['one', 'two', 'three']
 
   const handleWorkflowItem = (id) => {
     setShowApprovalTab(true)
@@ -55,23 +32,23 @@ export const WorkflowApproval = () => {
   const handleApproval = (level) => {
     setSnackBar(true);
     setSnackbarMessage('Workflow has been Approved')
-    setWorkflowStatus(level,'approve')
+    setWorkflowStatus(level, 'approve')
   }
 
   const handleRejection = (level) => {
     setSnackBar(true);
     setSnackbarMessage('Workflow has been Rejected')
-    setWorkflowStatus(level,'reject')
+    setWorkflowStatus(level, 'reject')
   }
 
-  const setWorkflowStatus = (level,value) => {
+  const setWorkflowStatus = (level, value) => {
     // workflowId: id,
     // level: stage,
     fetch("http://ec2-3-129-9-103.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
 
       method: "POST",
       body: JSON.stringify({
-        workflowId: historyData.workflowId,
+        workflowId,
         level,
         value
       }),
@@ -101,6 +78,7 @@ export const WorkflowApproval = () => {
             <tr>
               <th>S. No.</th>
               <th>Workflow ID</th>
+              <th>Workflow Name</th>
               <th>Manage Workflows</th>
             </tr>
           </thead>
@@ -110,6 +88,7 @@ export const WorkflowApproval = () => {
                 <tr key={item.workflowId}>
                   <td>{index + 1}</td>
                   <td>{item.workflowId}</td>
+                  <td>{item.name}</td>
                   <td><Button variant='success' onClick={() => handleWorkflowItem(item.workflowId)}> Manage </Button></td>
                 </tr>
               )
@@ -117,19 +96,19 @@ export const WorkflowApproval = () => {
           </tbody>
         </Table>
       </Row>
-      {showApprovalTab && <Row xs={4} style={{display: 'flex', justifyContent: 'center', margin: '30px',borderBottom: '1px solid grey', fontSize: '24px' }}>Below are different Approval Levels for Selected ID : {historyData.workflowId}</Row>}
+      {showApprovalTab && <Row xs={4} style={{ display: 'flex', justifyContent: 'center', margin: '30px', borderBottom: '1px solid grey', fontSize: '24px' }}>Below are different Approval Levels for Selected ID : {workflowId}</Row>}
       <Row style={{ margin: '30px' }}>
-        
-        {showApprovalTab && <ul style={{width:'100%'}}>{historyData.history.map((item,index) => {
-          return (
-            <li key={index} style={{display: 'flex', justifyContent:'center', listStyle: 'none', margin: '10px'}}>
 
-              <Col xs={6} style={rowStyle}><h4>Level {item.level}</h4></Col>
+        {showApprovalTab && <ul style={{ width: '100%' }}>{workflowLevels.map((level, index) => {
+          return (
+            <li key={index} style={{ display: 'flex', justifyContent: 'center', listStyle: 'none', margin: '10px' }}>
+
+              <Col xs={6} style={rowStyle}><h4>Level {level}</h4></Col>
               <Col xs={3} style={rowStyle}>
-                <Button variant='success' onClick={() => handleApproval(item.level)}> Approve </Button>
+                <Button variant='success' onClick={() => handleApproval(level)}> Approve </Button>
               </Col>
               <Col xs={3} style={rowStyle}>
-                <Button variant='danger' onClick={()=>handleRejection(item.level)}> Reject </Button>
+                <Button variant='danger' onClick={() => handleRejection(level)}> Reject </Button>
               </Col>
             </li>
           )
