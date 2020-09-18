@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { WorkflowDiagram } from './WorkflowDiagram'
+import { WorkflowDiagramGenerator } from './WorkflowDiagramGenerator'
 import { Sheet, Toastr, useLocalStorage } from '../common'
 import { DocumentReviewEditConfiguration, DocumentUploadEditConfiguration, DocumentSingleReviewEditConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
@@ -122,7 +122,7 @@ export const WorkflowCreation = () => {
                     <Row>
                         <Col>
                             
-                            <WorkflowDiagram type={type} onNodeClick={handleNodeClick} />
+                            <WorkflowDiagramGenerator type={type} onNodeClick={handleNodeClick} />
                             
                                     <Sheet isOpen={openConfigurationSheet} handleClose={handleSheetClose} title="Step Configuration">
                                         <DialogContent>
