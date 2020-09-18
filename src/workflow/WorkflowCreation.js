@@ -55,9 +55,11 @@ export const WorkflowCreation = () => {
     const handleWorkflowSave = async (values) => {
         console.log('values', values)
 
-        //TODO - API call to initiate workflow
         const response = await fetch('http://ec2-3-129-9-103.us-east-2.compute.amazonaws.com:8888/workflow/initiate', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 "workflowType": type,
                 "name": values.workflowName
@@ -67,28 +69,28 @@ export const WorkflowCreation = () => {
 
         if(response.ok){
             setShowWorkflowStartToast(true)
-            //redirect to workflow listing
+
+
+            const { workflowId, workflowType, name } = await response.json()
+            const createdWorkflow = {
+                "workflowId": workflowId,
+                "workflowType": workflowType,
+                "name": name,
+                "stepConfiguration": {
+                    ...values
+                }
+            }
+
+            if(createdWorkflow.workflowId) {
+                //store in localstorage and redirect to workspace listing
+                const allWorkflows = [...workflows, createdWorkflow]
+                setWorkflows(allWorkflows)
+                history.push('/workflows/')
+            }
         }else{
             //show error toast
         }
-
-        setShowWorkflowStartToast(true)
-        const { workflowId, workflowType, name } = response.json()
-        const createdWorkflow = {
-            "workflowId": workflowId,
-            "workflowType": workflowType,
-            "name": name,
-            "stepConfiguration": {
-                ...values
-            }
-        }
-
-        if(createdWorkflow.workflowId) {
-            //store in localstorage and redirect to workspace listing
-            const allWorkflows = [...workflows, createdWorkflow]
-            setWorkflows(allWorkflows)
-            history.push('/workflows/')
-        }
+        
     }
 
     return (            
