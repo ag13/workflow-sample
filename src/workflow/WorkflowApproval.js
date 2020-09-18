@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Snackbar from '@material-ui/core/Snackbar';
+import { useParams } from 'react-router-dom'
 
 export const WorkflowApproval = () => {
   const rowStyle =
@@ -12,6 +13,7 @@ export const WorkflowApproval = () => {
     justifyContent: 'center'
   }
 
+  const { id, stage } = useParams()
   const [snackbar, setSnackBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('')
 
@@ -28,12 +30,12 @@ export const WorkflowApproval = () => {
   }
 
   const setWorkflowStatus = (value) => {
-    fetch("http://ec2-3-131-133-128.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
+    fetch("http://ec2-3-129-9-103.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
 
       method: "POST",
       body: JSON.stringify({
-        workflowId: "7aa6682f-910e-49ac-8698-9eab44295b80",
-        level: "three",
+        workflowId: id,
+        level: stage,
         value
       }),
       headers: {

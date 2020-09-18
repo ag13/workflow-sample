@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import { WorkflowDiagram } from './WorkflowDiagram'
+import { WorkflowDiagramGenerator } from './WorkflowDiagramGenerator'
 import { Sheet } from '../common'
 import { DocumentReviewViewConfiguration, DocumentUploadViewConfiguration, DocumentSingleReviewViewConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
@@ -15,6 +15,7 @@ export const ViewWorkflow = () => {
     let { workflowId, type } = useParams()
 
     const [nodeType, setNodeType] = useState('')
+    const [workflowStatus, setWorkflowStatus] = useState('In Progress')
     const [stepNumber, setStepNumber] = useState('')
     const [openConfigurationSheet, setOpenConfigurationSheet] = useState(false)
 
@@ -29,6 +30,10 @@ export const ViewWorkflow = () => {
 
     const handleSheetClose = () => {
         setOpenConfigurationSheet(false)
+    }
+
+    const handleStatusChange = (status) => {
+        setWorkflowStatus(status)
     }
 
     const getNodeConfiguration = useMemo(() => {
@@ -54,14 +59,14 @@ export const ViewWorkflow = () => {
                 <Row style={{margin: '20px'}}>
                     <Col xs={6} style={{textAlign: 'left'}}><h4>View Workflow</h4></Col>
                     <Col xs={3}>
-                        <span>Status: <FiberManualRecordIcon style={{color: 'grey'}} />Not Started</span>
+                        <span>Status: <FiberManualRecordIcon style={{color: 'grey'}} />{workflowStatus}</span>
                     </Col>
 
                 </Row>
                 <Row>
                     <Col>
                         
-                        <WorkflowDiagram type={type} workflowId={workflowId} onNodeClick={handleNodeClick} />
+                        <WorkflowDiagramGenerator type={type} workflowId={workflowId} onNodeClick={handleNodeClick} isView onStatusChange={handleStatusChange}/>
                         <Sheet isOpen={openConfigurationSheet} handleClose={handleSheetClose} title="Step Configuration">
                             <DialogContent>
                                 {getNodeConfiguration}

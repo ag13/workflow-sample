@@ -15,7 +15,7 @@ function App() {
         <Route exact path="/workflows/" component={WorkFlowHome} />
         <Route exact path="/workflows/create/:type" component={WorkflowCreation} />
         <Route exact path="/workflows/view/:type/:workflowId" component={ViewWorkflow} />
-        <Route exact path="/workflows/approval" component={WorkflowApproval} />
+        <Route exact path="/workflows/approval/:id/:stage" component={WorkflowApproval} />
       </HashRouter>
     </div>
   );
