@@ -44,7 +44,7 @@ export const WorkflowApproval = () => {
   const setWorkflowStatus = (level, value) => {
     // workflowId: id,
     // level: stage,
-    fetch("http://ec2-3-129-9-103.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
+    fetch("http://ec2-18-222-143-149.us-east-2.compute.amazonaws.com:8888/acknowledgement/", {
 
       method: "POST",
       body: JSON.stringify({

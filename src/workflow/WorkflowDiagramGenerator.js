@@ -19,7 +19,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   useEffect(() => {
     //get workflow information from workflowId
     const fetchWorkflow = async () => {
-        const response = await fetch(`http://ec2-3-129-9-103.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
+        const response = await fetch(`http://ec2-18-222-143-149.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
             method: 'GET'
         })
         if(response.ok){
