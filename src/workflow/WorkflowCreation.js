@@ -55,7 +55,7 @@ export const WorkflowCreation = () => {
     const handleWorkflowSave = async (values) => {
         console.log('values', values)
 
-        const response = await fetch('http://ec2-18-222-143-149.us-east-2.compute.amazonaws.com:8888/workflow/initiate', {
+        const response = await fetch('http://ec2-18-224-200-243.us-east-2.compute.amazonaws.com:8888/workflow/initiate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
