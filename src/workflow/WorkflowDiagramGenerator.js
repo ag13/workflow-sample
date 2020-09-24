@@ -199,6 +199,25 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
                 stepNumber: "three"
               }
             ]
+          },
+          {
+            id: "node4",
+            height: 100,
+            width: 100,
+            offsetX: 600,
+            offsetY: 300,
+            style: {
+              fill: grey,
+            },
+            annotations: [
+              {
+                content: "Create ServiceNow ticket"
+              },
+              {
+                stepType: "serviceNow",
+                stepNumber: "four"
+              }
+            ]
           }
         ],
         connectors: [
@@ -211,7 +230,17 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             id: "connector2",
             sourceID: "node1",
             targetID: "node3"
-          }
+          },
+          {
+            id: "connector3",
+            sourceID: "node2",
+            targetID: "node4"
+          },
+          {
+            id: "connector4",
+            sourceID: "node3",
+            targetID: "node4"
+          },
         ]
       }
       if(isView){
