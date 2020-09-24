@@ -59,7 +59,7 @@ export const ViewWorkflow = () => {
                 <Row style={{margin: '20px'}}>
                     <Col xs={6} style={{textAlign: 'left'}}><h4>View Workflow</h4></Col>
                     <Col xs={3}>
-                        <span>Status: <FiberManualRecordIcon style={{color: 'grey'}} />{workflowStatus}</span>
+                        <span>Status: <FiberManualRecordIcon style={{color: workflowStatus === 'Completed'?  'forestgreen' : 'grey'}} />{workflowStatus}</span>
                     </Col>
 
                 </Row>
