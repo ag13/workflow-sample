@@ -11,8 +11,8 @@ export const DocumentUploadEditConfiguration = () => {
     const { values, setFieldValue } = useFormikContext()
 
     const options = [
-        'F24H Wizard',
-        'MadCap Flare POC'
+        'React',
+        'Java'
     ]
 
     const handleChange = (value) => {
@@ -24,7 +24,7 @@ export const DocumentUploadEditConfiguration = () => {
     return (
             <>
                 <Form.Group>
-                    <Form.Label>Select document to review</Form.Label>
+                    <Form.Label>Select deployment for approval</Form.Label>
                     <Typeahead
                     id="basic-typeahead-single"
                     name="selectedDocument"
@@ -61,7 +61,7 @@ export const DocumentUploadViewConfiguration = ({workflowId}) => {
             <>
                 <Form.Group as={Row} controlId="formPlaintextEmail">
                     <Form.Label column sm="12">
-                    Document to review
+                    Deployment for approval
                     </Form.Label>
                     <Col sm="10">
                     <Form.Control plaintext readOnly value={configuration.document} />

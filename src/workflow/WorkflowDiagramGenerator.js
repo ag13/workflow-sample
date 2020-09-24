@@ -62,16 +62,16 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   useEffect(() => {
     //get workflow information from workflowId
     const fetchWorkflow = async () => {
-      const response = await fetch(`http://ec2-18-224-200-243.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
-        method: 'GET'
-      })
-      if (response.ok) {
-        const workflow = await response.json()
-        console.log(workflow)
-        setWorkflowHistory(workflow)
-      } else {
-        console.error('Not able to get workflow details')
-      }
+        const response = await fetch(`http://ec2-18-224-200-243.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
+            method: 'GET'
+        })
+        if(response.ok){
+            const workflow = await response.json()
+            console.log(workflow)
+            setWorkflowHistory(workflow)
+        }else{
+            console.error('Not able to get workflow details')
+        }
     }
 
     if(isView){
@@ -191,13 +191,13 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             height: 100,
             width: 100,
             offsetX: 200,
-            offsetY: 100,
+            offsetY: 300,
             style: {
               fill: grey,
             },
             annotations: [
               {
-                content: "Step 1 - Document Selection"
+                content: "Deployment"
               },
               {
                 stepType: "documentUpload",
@@ -213,17 +213,36 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             height: 100,
             width: 100,
             offsetX: 400,
-            offsetY: 100,
+            offsetY: 200,
             style: {
               fill: grey,
             },
             annotations: [
               {
-                content: "Step 2 - Document Review"
+                content: "Review Step"
               },
               {
-                stepType: "multiReview",
+                stepType: "singleReview",
                 stepNumber: "two"
+              }
+            ]
+          },
+          {
+            id: "node3",
+            height: 100,
+            width: 100,
+            offsetX: 400,
+            offsetY: 400,
+            style: {
+              fill: grey,
+            },
+            annotations: [
+              {
+                content: "Review Step"
+              },
+              {
+                stepType: "singleReview",
+                stepNumber: "three"
               }
             ]
           }
@@ -233,6 +252,11 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             id: "connector1",
             sourceID: "node1",
             targetID: "node2"
+          },
+          {
+            id: "connector2",
+            sourceID: "node1",
+            targetID: "node3"
           }
         ]
       }
@@ -252,10 +276,10 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
     const selectedWorkflow = workflows.filter(item => item.id !== workflowId)
     console.log('historyWithStages', historyWithStages, selectedWorkflow)
 
-    if (selectedWorkflow.length && type.toLowerCase() === 'sequential'){
-      if(historyWithStages && !historyWithStages.length){
-        setWorkflowType({...workflowSteps})
-      }
+    if (selectedWorkflow.length && (type.toLowerCase() === 'sequential' || type.toLowerCase() === 'parallel')){
+        if(historyWithStages && !historyWithStages.length){
+            setWorkflowType({...workflowSteps})
+        }
       for(let i=0; i<historyWithStages.length;i++){
         switch(historyWithStages[i].state){
           case 'APPROVED':
@@ -284,10 +308,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             return null
         }
       }
-    }  else if (type.toLowerCase() === 'parallel'){
-      // code for parallel view workflow status change
-      // Will implement it as soon as we get history object structure for Parallel flow
-    }
+    } 
   }, [workflowId, type, historyWithStages])
 
   return (
