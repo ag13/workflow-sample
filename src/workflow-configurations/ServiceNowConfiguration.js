@@ -11,7 +11,7 @@ export const ServiceNowViewConfiguration = () => {
     return (
         <>
             <Image src={ServiceNowImage} rounded style={{width: '100px'}}/>
-            <div>Service Now Request Id - 783nsdfk234e09</div>
+            <div>Service Now Request Id - <a href='https://www.servicenow.com/' > 783nsdfk234e09</a></div>
         </>
     )
 }

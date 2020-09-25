@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from '../common'
 import { WorkflowDiagram } from './WorkflowDiagram'
 import { NodeConstraints } from "@syncfusion/ej2-react-diagrams"
-import * as Logo from '../images/JIRA_image.png'
+import * as Logo from '../assets/ServiceNow.logo.jpg'
 
 
 export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView = false, onStatusChange }) => {
@@ -17,52 +17,11 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   const grey = '#E5ECE2'  // color code for In progress
   const red = '#FA2116'   // color code for rejected
   const white = 'white'
-  const jiraNode = {
-    id: "node4",
-    height: 100,
-    width: 100,
-    offsetX: type.toLowerCase() === 'sequential' ? 800 : 600,
-    offsetY: 100,
-    style: {
-      fill: grey,
-      color: white
-    },
-    shape: {
-      type: 'Image',
-      source: Logo,
-      scale: 'Meet'
-  },
-  constraints: NodeConstraints.Default | NodeConstraints.Tooltip,
-  tooltip: {
-    content: 'Jira Ticket Created',
-    position: 'BottomCenter',
-    relativeMode: 'Object',
-},
-    annotations: [
-      {
-        content: ''
-      },
-      {
-        stepType: "singleReview",
-        stepNumber: "four"
-      }
-    ]
-  }
-  const jiraNodeConnector = type.toLowerCase() === 'sequential' ? {
-    id: "connector3",
-    sourceID: "node3",
-    targetID: "node4"
-  } : {
-    id: "connector2",
-    sourceID: "node2",
-    targetID: "node3"
-  }
-
 
   useEffect(() => {
     //get workflow information from workflowId
     const fetchWorkflow = async () => {
-        const response = await fetch(`http://ec2-18-224-200-243.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
+        const response = await fetch(`http://ec2-3-129-92-198.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
             method: 'GET'
         })
         if(response.ok){
@@ -86,9 +45,16 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
       workflowHistory.history.forEach(({stage, state}) => {
         if(stage === 'Workflow' && state === 'COMPLETED'){
           onStatusChange && onStatusChange('Completed')
-          const updatedState = { ...workflowSteps }
-          updatedState.nodes.push(jiraNode)
-          updatedState.connectors.push(jiraNodeConnector)
+          setWorkflowType(prevState=>{
+            const updatedState = {...workflowSteps}
+            updatedState.nodes[3].shape = {
+              type: 'Image',
+              source: Logo,
+              scale: 'Meet'
+            }
+            updatedState.nodes[3].annotations[0].content = ''
+            return updatedState
+          })
         }
       })
 
@@ -113,7 +79,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step 1 - Document Selection"
+                content: "Deployment Step"
               },
               {
                 stepType: "documentUpload",
@@ -135,7 +101,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step 2 - Document Review"
+                content: "Step-1 Review"
               },
               {
                 stepType: "singleReview",
@@ -154,11 +120,30 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step 3 - Document Review"
+                content: "Step-2 Review"
               },
               {
                 stepType: "singleReview",
                 stepNumber: "three"
+              }
+            ]
+          },
+          {
+            id: "node4",
+            height: 100,
+            width: 100,
+            offsetX: 800,
+            offsetY: 100,
+            style: {
+              fill: grey,
+            },
+            annotations: [
+              {
+                content: 'Service Now Ticket Creation'
+              },
+              {
+                stepType: "serviceNow",
+                stepNumber: "four"
               }
             ]
           }
@@ -173,7 +158,12 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             id: "connector2",
             sourceID: "node2",
             targetID: "node3"
-          }
+          },
+          {
+            id: "connector3",
+            sourceID: "node3",
+            targetID: "node4"
+          } 
         ]
       }
       if(isView){
