@@ -25,7 +25,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
     const fetchWorkflow = async () => {
       console.log('loading true')
         setLoading(true)
-        const response = await fetch(`http://ec2-3-129-92-198.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
+        const response = await fetch(`http://ec2-3-136-160-82.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
             method: 'GET'
         })
         if(response.ok){
@@ -46,10 +46,13 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   useEffect(() => {
     if(workflowHistory && workflowHistory.history){
       console.log('workflowHistory', workflowHistory)
+      let reviewRejected = false;
       workflowHistory.history.forEach(({stage, state}) => {
+         if (state === 'REJECTED'){
+          reviewRejected = true
+         } 
         if(stage === 'Workflow' && state === 'COMPLETED'){
           onStatusChange && onStatusChange('Completed')
-          const reviewRejected = historyWithStages.some(item => item.state === 'REJECTED')
           setWorkflowType(prevState=>{
             const updatedState = {...workflowSteps}
             if(reviewRejected){
@@ -62,7 +65,6 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               }
               updatedState.nodes[4].annotations[0].content = ''
             }
-
             return updatedState
           })
         }
@@ -93,7 +95,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "documentUpload",
-                stepNumber: "one"
+                stepNumber: "zero"
               }
             ]
             //   shape: {
@@ -115,7 +117,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "singleReview",
-                stepNumber: "two"
+                stepNumber: "one"
               }
             ]
           },
@@ -134,7 +136,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "singleReview",
-                stepNumber: "three"
+                stepNumber: "two"
               }
             ]
           },
@@ -153,7 +155,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "singleReview",
-                stepNumber: "four"
+                stepNumber: "three"
               }
             ]
           },
@@ -172,7 +174,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "serviceNow",
-                stepNumber: "five"
+                stepNumber: "four"
               }
             ]
           }
@@ -225,7 +227,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "documentUpload",
-                stepNumber: "one"
+                stepNumber: "zero"
               }
             ]
             //   shape: {
@@ -247,7 +249,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "singleReview",
-                stepNumber: "two"
+                stepNumber: "one"
               }
             ]
           },
@@ -266,7 +268,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "singleReview",
-                stepNumber: "three"
+                stepNumber: "two"
               }
             ]
           },
@@ -285,7 +287,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "singleReview",
-                stepNumber: "four"
+                stepNumber: "three"
               }
             ]
           },
@@ -304,7 +306,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
               },
               {
                 stepType: "serviceNow",
-                stepNumber: "five"
+                stepNumber: "four"
               }
             ]
           }
@@ -367,7 +369,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
           case 'APPROVED':
             setWorkflowType(prevState=>{
               const updatedState = {...workflowSteps}
-              updatedState.nodes[i].style.fill = green
+              updatedState.nodes[i+1].style.fill = green
               console.log('filled wit green')
               return updatedState
             })
@@ -375,14 +377,14 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
           case 'REJECTED':
             setWorkflowType(prevState=>{
               const updatedState = {...workflowSteps}
-              updatedState.nodes[i].style.fill = red
+              updatedState.nodes[i+1].style.fill = red
               return updatedState
             })
             break
           case null:
             setWorkflowType(prevState=>{
               const updatedState = {...workflowSteps}
-              updatedState.nodes[i].style.fill = white
+              updatedState.nodes[i+1].style.fill = white
               return updatedState
             })
             break
@@ -390,7 +392,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             return null
         }
       }
-    } 
+    }
     console.log('loading false')
     setLoading(false)
   }, [workflowId, type, historyWithStages])
