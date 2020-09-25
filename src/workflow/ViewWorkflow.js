@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { WorkflowDiagramGenerator } from './WorkflowDiagramGenerator'
 import { Sheet } from '../common'
-import { DocumentReviewViewConfiguration, DocumentUploadViewConfiguration, DocumentSingleReviewViewConfiguration } from '../workflow-configurations'
+import { DocumentReviewViewConfiguration, DocumentUploadViewConfiguration, DocumentSingleReviewViewConfiguration, ServiceNowViewConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { useParams } from 'react-router-dom'
@@ -46,6 +46,8 @@ export const ViewWorkflow = () => {
                     return <DocumentReviewViewConfiguration workflowId={workflowId} />
                 case 'singleReview':
                     return <DocumentSingleReviewViewConfiguration workflowId={workflowId} stepNumber={stepNumber} />
+                case 'serviceNow':
+                    return <ServiceNowViewConfiguration />
                 default:
                     return null
                 

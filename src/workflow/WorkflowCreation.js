@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { WorkflowDiagramGenerator } from './WorkflowDiagramGenerator'
 import { Sheet, Toastr, useLocalStorage } from '../common'
-import { DocumentReviewEditConfiguration, DocumentUploadEditConfiguration, DocumentSingleReviewEditConfiguration } from '../workflow-configurations'
+import { DocumentReviewEditConfiguration, DocumentUploadEditConfiguration, DocumentSingleReviewEditConfiguration, ServiceNowEditConfiguration } from '../workflow-configurations'
 import { DialogActions, DialogContent } from '@material-ui/core'
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord'
 import { Formik } from 'formik'
@@ -45,6 +45,8 @@ export const WorkflowCreation = () => {
                     return <DocumentReviewEditConfiguration />
                 case 'singleReview':
                     return <DocumentSingleReviewEditConfiguration nodeType={nodeType} stepNumber={stepNumber} />
+                case 'serviceNow':
+                    return <ServiceNowEditConfiguration />
                 default:
                     return null
                 
