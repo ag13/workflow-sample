@@ -102,10 +102,8 @@ export const WorkflowApproval = () => {
         {showApprovalTab && <ul style={{ width: '100%' }}>{workflowLevels.map((level, index) => {
           return (
             <li key={index} style={{ display: 'flex', justifyContent: 'center', listStyle: 'none', margin: '10px' }}>
-              {index === 0 ?
-                <Col xs={6} style={rowStyle}><h4> Deployment Step</h4></Col> :
-                <Col xs={6} style={rowStyle}><h4>Step-{index} Review</h4></Col> 
-              }
+
+              <Col xs={6} style={rowStyle}><h4>Level {level}</h4></Col>
               <Col xs={3} style={rowStyle}>
                 <Button variant='success' onClick={() => handleApproval(level)}> Approve </Button>
               </Col>
