@@ -18,6 +18,7 @@ export const ViewWorkflow = () => {
     const [workflowStatus, setWorkflowStatus] = useState('In Progress')
     const [stepNumber, setStepNumber] = useState('')
     const [openConfigurationSheet, setOpenConfigurationSheet] = useState(false)
+    const [serviceNowId, setServiceNowId] = useState('')
 
     const handleNodeClick = (clickedNodeAnnotation) => {
         if(clickedNodeAnnotation){
@@ -32,8 +33,9 @@ export const ViewWorkflow = () => {
         setOpenConfigurationSheet(false)
     }
 
-    const handleStatusChange = (status) => {
+    const handleStatusChange = (status, serviceNowId='') => {
         setWorkflowStatus(status)
+        setServiceNowId(serviceNowId)
     }
 
     const getNodeConfiguration = useMemo(() => {
@@ -47,7 +49,7 @@ export const ViewWorkflow = () => {
                 case 'singleReview':
                     return <DocumentSingleReviewViewConfiguration workflowId={workflowId} stepNumber={stepNumber} />
                 case 'serviceNow':
-                    return <ServiceNowViewConfiguration />
+                    return <ServiceNowViewConfiguration serviceNowId={serviceNowId}/>
                 default:
                     return null
                 

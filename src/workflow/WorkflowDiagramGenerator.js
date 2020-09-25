@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from '../common'
 import { WorkflowDiagram } from './WorkflowDiagram'
-import { NodeConstraints } from "@syncfusion/ej2-react-diagrams"
 import * as Logo from '../assets/ServiceNow.logo.jpg'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
@@ -52,11 +51,11 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
           reviewRejected = true
          } 
         if(stage === 'Workflow' && state === 'COMPLETED'){
-          onStatusChange && onStatusChange('Completed')
           setWorkflowType(prevState=>{
             const updatedState = {...workflowSteps}
             if(reviewRejected){
               updatedState.nodes[4].style.fill = red
+              onStatusChange && onStatusChange('Completed')
             } else {
               updatedState.nodes[4].shape = {
                 type: 'Image',
@@ -64,9 +63,24 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
                 scale: 'Meet'
               }
               updatedState.nodes[4].annotations[0].content = ''
+              serviceNowAPICall()
             }
             return updatedState
           })
+          const serviceNowAPICall = async () => {
+            const response = await fetch('http://ec2-3-136-160-82.us-east-2.compute.amazonaws.com:8888/workflow/servicenow/request', {
+              method: 'POST'
+            })
+            console.log('api response', response);
+            if(response.ok){
+
+              const apiResponse = await response.text()
+              console.log('Service now API response : ', apiResponse)
+              onStatusChange && onStatusChange('Completed',apiResponse)
+            }else{
+              console.error('Not able to get response from service now API')
+            }
+          }
         }
       })
 
