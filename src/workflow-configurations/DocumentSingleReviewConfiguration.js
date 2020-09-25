@@ -18,9 +18,9 @@ export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) =>
         if(nodeType === 'multiReview'){
             setOptions(
                 [
-                    'Pritam',
-                    'Ashish',
-                    'Anupam'
+                    'Pritam Sadhukhan',
+                    'Ashish Pathak',
+                    'Anupam Gore'
                 ]
             )
         }else if(nodeType === 'singleReview'){
@@ -31,18 +31,18 @@ export const DocumentSingleReviewEditConfiguration = ({nodeType, stepNumber}) =>
                 ])
             } else if(stepNumber === 'two'){
                 setOptions([
-                    'Akhil',
-                    'Ashwini'
+                    'Akhil Kanaskar',
+                    'Divakar Jegathesaraja '
                 ])
             } else if(stepNumber === 'three'){
                 setOptions([
-                    'Auro',
-                    'Chitra'
+                    'Nitin Bajaj',
+                    'Nitin Dalbhide'
                 ])
             } else if(stepNumber === 'four'){
                 setOptions([
-                    'Shubho',
-                    'Biplap'
+                    'Biplab Roy',
+                    'John Moore'
                 ])
             }
         }

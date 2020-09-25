@@ -11,8 +11,8 @@ export const DocumentUploadEditConfiguration = () => {
     const { values, setFieldValue } = useFormikContext()
 
     const options = [
-        'React',
-        'Java'
+        'Angular JS',
+        'Java 1.8'
     ]
 
     const handleChange = (value) => {
