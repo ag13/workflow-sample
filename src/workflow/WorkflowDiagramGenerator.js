@@ -49,14 +49,20 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
       workflowHistory.history.forEach(({stage, state}) => {
         if(stage === 'Workflow' && state === 'COMPLETED'){
           onStatusChange && onStatusChange('Completed')
+          const reviewRejected = historyWithStages.some(item => item.state === 'REJECTED')
           setWorkflowType(prevState=>{
             const updatedState = {...workflowSteps}
-            updatedState.nodes[3].shape = {
-              type: 'Image',
-              source: Logo,
-              scale: 'Meet'
+            if(reviewRejected){
+              updatedState.nodes[4].style.fill = red
+            } else {
+              updatedState.nodes[4].shape = {
+                type: 'Image',
+                source: Logo,
+                scale: 'Meet'
+              }
+              updatedState.nodes[4].annotations[0].content = ''
             }
-            updatedState.nodes[3].annotations[0].content = ''
+
             return updatedState
           })
         }
@@ -79,7 +85,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             offsetX: 200,
             offsetY: 100,
             style: {
-              fill: grey,
+              fill: isView ? green : grey,
             },
             annotations: [
               {
@@ -211,7 +217,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             offsetX: 200,
             offsetY: 400,
             style: {
-              fill: grey,
+              fill: isView ? green : grey,
             },
             annotations: [
               {
