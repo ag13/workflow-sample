@@ -3,7 +3,7 @@ import Image from 'react-bootstrap/Image'
 import ServiceNowImage from '../assets/ServiceNow.logo.jpg'
 export const ServiceNowEditConfiguration = () => {
     return (
-        <div>This step will call the Service Now to create the request Id</div>
+        <div>This step will call the Service Now API to create the ticket</div>
     )
 }
 

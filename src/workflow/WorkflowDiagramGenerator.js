@@ -3,6 +3,7 @@ import { useLocalStorage } from '../common'
 import { WorkflowDiagram } from './WorkflowDiagram'
 import { NodeConstraints } from "@syncfusion/ej2-react-diagrams"
 import * as Logo from '../assets/ServiceNow.logo.jpg'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView = false, onStatusChange }) => {
@@ -13,6 +14,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   const [historyWithStages, setHistoryWithStages] = useState([])
   const [workflowHistory, setWorkflowHistory] = useState({})
   const [workflows] = useLocalStorage('ws:workflows', [])
+  const [loading, setLoading] = useState(false)
   const green = '#61FF33' // color code for completed
   const grey = '#E5ECE2'  // color code for In progress
   const red = '#FA2116'   // color code for rejected
@@ -21,6 +23,8 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   useEffect(() => {
     //get workflow information from workflowId
     const fetchWorkflow = async () => {
+      console.log('loading true')
+        setLoading(true)
         const response = await fetch(`http://ec2-3-129-92-198.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
             method: 'GET'
         })
@@ -79,7 +83,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Deployment step"
+                content: "Deployment"
               },
               {
                 stepType: "documentUpload",
@@ -101,7 +105,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Review step"
+                content: "DevOps Lead review"
               },
               {
                 stepType: "singleReview",
@@ -120,7 +124,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Review step"
+                content: "DevOps Manager review"
               },
               {
                 stepType: "singleReview",
@@ -139,11 +143,30 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: 'Service Now Ticket Creation'
+                content: "Infra Manager Review"
+              },
+              {
+                stepType: "singleReview",
+                stepNumber: "four"
+              }
+            ]
+          },
+          {
+            id: "node5",
+            height: 100,
+            width: 100,
+            offsetX: 1000,
+            offsetY: 100,
+            style: {
+              fill: grey,
+            },
+            annotations: [
+              {
+                content: 'Service Now ticket creation'
               },
               {
                 stepType: "serviceNow",
-                stepNumber: "four"
+                stepNumber: "five"
               }
             ]
           }
@@ -163,6 +186,11 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             id: "connector3",
             sourceID: "node3",
             targetID: "node4"
+          } ,
+          {
+            id: "connector4",
+            sourceID: "node4",
+            targetID: "node5"
           } 
         ]
       }
@@ -181,13 +209,13 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             height: 100,
             width: 100,
             offsetX: 200,
-            offsetY: 300,
+            offsetY: 400,
             style: {
               fill: grey,
             },
             annotations: [
               {
-                content: "Deployment step"
+                content: "Deployment"
               },
               {
                 stepType: "documentUpload",
@@ -209,7 +237,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Review Step"
+                content: "DevOps Lead review"
               },
               {
                 stepType: "singleReview",
@@ -228,7 +256,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Review Step"
+                content: "Infra Lead review"
               },
               {
                 stepType: "singleReview",
@@ -240,18 +268,37 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             id: "node4",
             height: 100,
             width: 100,
-            offsetX: 600,
-            offsetY: 300,
+            offsetX: 400,
+            offsetY: 600,
             style: {
               fill: grey,
             },
             annotations: [
               {
-                content: "Create ServiceNow ticket"
+                content: "Infra Manager review"
+              },
+              {
+                stepType: "singleReview",
+                stepNumber: "four"
+              }
+            ]
+          },
+          {
+            id: "node5",
+            height: 100,
+            width: 100,
+            offsetX: 600,
+            offsetY: 400,
+            style: {
+              fill: grey,
+            },
+            annotations: [
+              {
+                content: "Service Now ticket creation"
               },
               {
                 stepType: "serviceNow",
-                stepNumber: "four"
+                stepNumber: "five"
               }
             ]
           }
@@ -269,14 +316,24 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
           },
           {
             id: "connector3",
-            sourceID: "node2",
+            sourceID: "node1",
             targetID: "node4"
           },
           {
             id: "connector4",
-            sourceID: "node3",
-            targetID: "node4"
+            sourceID: "node2",
+            targetID: "node5"
           },
+          {
+            id: "connector5",
+            sourceID: "node3",
+            targetID: "node5"
+          },
+          {
+            id: "connector6",
+            sourceID: "node4",
+            targetID: "node5"
+          }
         ]
       }
       if(isView){
@@ -328,12 +385,18 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
         }
       }
     } 
+    console.log('loading false')
+    setLoading(false)
   }, [workflowId, type, historyWithStages])
 
   return (
     <>
+      {console.log(loading)}
       {
-        workflowType && workflowType.nodes && workflowType.nodes.length && <WorkflowDiagram workflowType={workflowType} onNodeClick={onNodeClick} onStatusChange={onStatusChange} />
+        loading && <CircularProgress />
+      }
+      {
+        !loading && workflowType && workflowType.nodes && workflowType.nodes.length && <WorkflowDiagram workflowType={workflowType} onNodeClick={onNodeClick} onStatusChange={onStatusChange} />
       }
     </>
 

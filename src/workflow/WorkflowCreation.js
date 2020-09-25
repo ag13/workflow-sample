@@ -104,8 +104,11 @@ export const WorkflowCreation = () => {
                             <Form onSubmit={handleSubmit}>
                             <Container fluid>
                     <Row style={{margin: '20px'}}>
-                        <Col xs={4} style={{textAlign: 'left'}}><h4>Create Workflow</h4></Col>
-                        <Col xs={4}>
+                        <Col xs={4} style={{textAlign: 'left'}}>
+                            <h4>Create Workflow</h4>
+                            <h6>Deployment approval workflow</h6>
+                        </Col>
+                        <Col xs={3}>
                             <Form.Group controlId="formWorkflowName">
                                 <Form.Control type="text" name="workflowName" onChange={handleChange}/>
                                 <Form.Text className="text-muted">
@@ -116,8 +119,8 @@ export const WorkflowCreation = () => {
                         <Col xs={2}>
                             <Button variant="primary" type="submit">Start Workflow</Button>
                         </Col>
-                        <Col xs={2}>
-                            <span>Status: <FiberManualRecordIcon style={{color: 'grey'}} />Not Started</span>
+                        <Col xs={3}>
+                            <span>Workflow status: <FiberManualRecordIcon style={{color: 'grey'}} />Not Started</span>
                         </Col>
 
                     </Row>
