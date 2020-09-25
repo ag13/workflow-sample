@@ -96,7 +96,7 @@ export const DocumentSingleReviewViewConfiguration = ({workflowId, stepNumber}) 
         <>
             <Form.Group as={Row} controlId="formPlaintextEmail">
                 <Form.Label column sm="12">
-                {stepNumber !== 'four'? 'Reviewer': 'JIRA Ticket is created for this Workflow.'}
+                Reviewer
                 </Form.Label>
                 <Col sm="10">
                     {
