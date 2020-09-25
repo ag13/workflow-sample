@@ -7,11 +7,17 @@ export const ServiceNowEditConfiguration = () => {
     )
 }
 
-export const ServiceNowViewConfiguration = () => {
+export const ServiceNowViewConfiguration = ({serviceNowId}) => {
+    console.log()
     return (
         <>
             <Image src={ServiceNowImage} rounded style={{width: '100px'}}/>
-            <div>Service Now Request Id - <a href='https://www.servicenow.com/' > 783nsdfk234e09</a></div>
+            {
+                serviceNowId.length
+                ? <div>Service Now Request Id - <a href='https://www.servicenow.com/' > {serviceNowId}</a></div> 
+                :<div>No Service now ticket created as the workflow request has been rejected.</div>
+            }
+    
         </>
     )
 }
