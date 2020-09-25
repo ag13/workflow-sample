@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from '../common'
 import { WorkflowDiagram } from './WorkflowDiagram'
+import { NodeConstraints } from "@syncfusion/ej2-react-diagrams"
+import * as Logo from '../assets/ServiceNow.logo.jpg'
 
 
 export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView = false, onStatusChange }) => {
@@ -19,7 +21,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   useEffect(() => {
     //get workflow information from workflowId
     const fetchWorkflow = async () => {
-        const response = await fetch(`http://ec2-18-224-200-243.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
+        const response = await fetch(`http://ec2-3-129-92-198.us-east-2.compute.amazonaws.com:8888/workflow/history/${workflowId}`, {
             method: 'GET'
         })
         if(response.ok){
@@ -32,27 +34,37 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
     }
 
     if(isView){
-        console.log('fetc')
-        fetchWorkflow()
+      console.log('fetc')
+      fetchWorkflow()
     }
-}, [workflowId, isView])
+  }, [workflowId, isView])
 
-   useEffect(() => {
+  useEffect(() => {
     if(workflowHistory && workflowHistory.history){
       console.log('workflowHistory', workflowHistory)
       workflowHistory.history.forEach(({stage, state}) => {
         if(stage === 'Workflow' && state === 'COMPLETED'){
           onStatusChange && onStatusChange('Completed')
+          setWorkflowType(prevState=>{
+            const updatedState = {...workflowSteps}
+            updatedState.nodes[3].shape = {
+              type: 'Image',
+              source: Logo,
+              scale: 'Meet'
+            }
+            updatedState.nodes[3].annotations[0].content = ''
+            return updatedState
+          })
         }
       })
 
       const historyWithStages = workflowHistory.history.filter(({eventType}) => eventType === 'WorkflowExecutionSignaled')
       setHistoryWithStages(historyWithStages)
     }
-   }, [workflowHistory])
+  }, [workflowHistory])
 
   useEffect(() => {
-      console.log(type)
+    console.log(type)
     if (type && type.toLowerCase() === 'sequential') {
       const sequential = {
         nodes: [
@@ -67,7 +79,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step 1 - Document Selection"
+                content: "Deployment Step"
               },
               {
                 stepType: "documentUpload",
@@ -89,7 +101,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step 2 - Document Review"
+                content: "Step-1 Review"
               },
               {
                 stepType: "singleReview",
@@ -108,11 +120,30 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step 3 - Document Review"
+                content: "Step-2 Review"
               },
               {
                 stepType: "singleReview",
                 stepNumber: "three"
+              }
+            ]
+          },
+          {
+            id: "node4",
+            height: 100,
+            width: 100,
+            offsetX: 800,
+            offsetY: 100,
+            style: {
+              fill: grey,
+            },
+            annotations: [
+              {
+                content: 'Service Now Ticket Creation'
+              },
+              {
+                stepType: "serviceNow",
+                stepNumber: "four"
               }
             ]
           }
@@ -127,16 +158,21 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             id: "connector2",
             sourceID: "node2",
             targetID: "node3"
-          }
+          },
+          {
+            id: "connector3",
+            sourceID: "node3",
+            targetID: "node4"
+          } 
         ]
       }
       if(isView){
         setWorkflowSteps(sequential)
       }else{
-          console.log('seq', sequential)
-          setWorkflowType(sequential)
+        console.log('seq', sequential)
+        setWorkflowType(sequential)
       }
-      
+
     } else if (type.toLowerCase() === 'parallel') {
       const parallel = {
         nodes: [
@@ -248,7 +284,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
       }else{
         setWorkflowType(parallel)
       }
-      
+
     }
   }, [type, isView])
 
@@ -295,11 +331,11 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
   }, [workflowId, type, historyWithStages])
 
   return (
-      <>
-        {
-            workflowType && workflowType.nodes && workflowType.nodes.length && <WorkflowDiagram workflowType={workflowType} onNodeClick={onNodeClick} onStatusChange={onStatusChange} />
-        }
-      </>
-    
+    <>
+      {
+        workflowType && workflowType.nodes && workflowType.nodes.length && <WorkflowDiagram workflowType={workflowType} onNodeClick={onNodeClick} onStatusChange={onStatusChange} />
+      }
+    </>
+
   )
 }
