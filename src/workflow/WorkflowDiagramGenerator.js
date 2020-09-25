@@ -79,7 +79,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Deployment Step"
+                content: "Deployment step"
               },
               {
                 stepType: "documentUpload",
@@ -101,7 +101,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step-1 Review"
+                content: "Review step"
               },
               {
                 stepType: "singleReview",
@@ -120,7 +120,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Step-2 Review"
+                content: "Review step"
               },
               {
                 stepType: "singleReview",
@@ -187,7 +187,7 @@ export const WorkflowDiagramGenerator = ({ type, workflowId, onNodeClick, isView
             },
             annotations: [
               {
-                content: "Deployment"
+                content: "Deployment step"
               },
               {
                 stepType: "documentUpload",

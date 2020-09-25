@@ -31,7 +31,6 @@ export const DocumentUploadEditConfiguration = () => {
                     labelKey="name"
                     onChange={handleChange}
                     options={options}
-                    placeholder="Choose a document..."
                     selected={values.selectedDocument}
                     />
                 </Form.Group>
